@@ -1,18 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const db_connection = require('../controller/db');
+const { CurriculosController } = require('../controller/curriculos.controller');
+
+const curriculosController = new CurriculosController();
 
 // Listar todos os currículos
-router.get('/', async (req, res) => {
-  try {
-    const gen_db = await db_connection.setup_db();
-    const result = await db_connection.get_curriculos();
-    res.render('listar', { curriculos: result.rows });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Erro no servidor');
-  }
-});
+router.get('/', curriculosController.getCurriculos);
 
 // Formulário para cadastrar um novo currículo
 router.get('/cadastrar', (req, res) => {
